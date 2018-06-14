@@ -1,17 +1,19 @@
 package com.maocanmao.mypass.ui.activity
 
-import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
 import com.maocanmao.mypass.R
+import com.maocanmao.mypass.appinfra.AppManager
 import com.maocanmao.mypass.ui.fragment.HomeFragment
 import com.maocanmao.mypass.ui.fragment.Settingragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    private var exitTime :Long = 0
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -41,5 +43,18 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, fragment)
         fragmentTransaction.commit()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (KeyEvent.KEYCODE_BACK ==keyCode){
+            if(System.currentTimeMillis() -exitTime >2000){
+                AppManager.makeToast(this,getString(R.string.press_to_exit))
+                exitTime = System.currentTimeMillis()
+            }else{
+                AppManager.killAllActivities()
+            }
+        }
+        return true
+
     }
 }
