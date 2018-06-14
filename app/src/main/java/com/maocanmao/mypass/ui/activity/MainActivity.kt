@@ -8,11 +8,16 @@ import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import com.maocanmao.mypass.R
 import com.maocanmao.mypass.appinfra.AppManager
+import com.maocanmao.mypass.appinfra.BaseApp
 import com.maocanmao.mypass.ui.fragment.HomeFragment
 import com.maocanmao.mypass.ui.fragment.Settingragment
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var appManager:AppManager
+
     private var exitTime :Long = 0
 
 
@@ -34,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        BaseApp.appComponent.inject(this)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         loadFragment(HomeFragment.newInstance())
     }
@@ -48,10 +53,10 @@ class MainActivity : AppCompatActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (KeyEvent.KEYCODE_BACK ==keyCode){
             if(System.currentTimeMillis() -exitTime >2000){
-                AppManager.makeToast(this,getString(R.string.press_to_exit))
+                appManager.makeToast(this,getString(R.string.press_to_exit))
                 exitTime = System.currentTimeMillis()
             }else{
-                AppManager.killAllActivities()
+                appManager.killAllActivities()
             }
         }
         return true
