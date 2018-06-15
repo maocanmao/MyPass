@@ -1,3 +1,6 @@
 package com.maocanmao.mypass.model.entity
 
-data class Account(val id: String, val password: String, val title: String)
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+
+data class Account(@PrimaryKey val id: String, val accountName: String, val password: String, val title: String) : RealmObject()
