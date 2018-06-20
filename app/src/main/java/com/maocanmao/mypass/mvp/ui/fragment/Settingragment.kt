@@ -1,4 +1,4 @@
-package com.maocanmao.mypass.ui.fragment
+package com.maocanmao.mypass.mvp.ui.fragment
 
 
 import android.os.Bundle

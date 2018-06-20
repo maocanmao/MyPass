@@ -7,14 +7,18 @@ import javax.inject.Inject
 /**
  * Created by zhouyang on 2018/6/15.
  */
-class RepositoryManager @Inject constructor() : IRepositoryManager {
+class RealmManager : IRepositoryManager {
+     var context:Context
 
     @Inject
-    lateinit var context:Context
+    constructor(context: Context){
+        this.context = context
+    }
+
 
     override fun <T> obtainDataBaseService(dataBaseService: Class<T>): T {
-        return when(dataBaseService){
-            is Realm->{
+        return when (dataBaseService) {
+             Realm::class.java -> {
                 Realm.init(context)
                 Realm.getDefaultInstance() as T
             }

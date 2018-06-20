@@ -1,10 +1,11 @@
 package com.maocanmao.mypass.di.component
 
-import com.maocanmao.mypass.appinfra.ActivityLifeCycle
-import com.maocanmao.mypass.appinfra.BaseApp
+import android.content.Context
+import com.maocanmao.mypass.appinfra.*
 import com.maocanmao.mypass.di.module.AppModule
-import com.maocanmao.mypass.ui.activity.MainActivity
-import com.maocanmao.mypass.ui.activity.SplashActivity
+import com.maocanmao.mypass.mvp.ui.activity.MainActivity
+import com.maocanmao.mypass.mvp.ui.activity.SplashActivity
+import com.maocanmao.mypass.mvp.ui.fragment.HomeFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -15,7 +16,11 @@ import javax.inject.Singleton
 @Component(modules = [(AppModule::class)])
 interface AppComponent {
     fun inject(baseApp: BaseApp)
-    fun inject(mainActivity: MainActivity)
-    fun inject(splashActivity: SplashActivity)
     fun inject(activityLifeCycle: ActivityLifeCycle)
+    fun inject(mainActivity: MainActivity)
+    fun inject(repositoryManager: IRepositoryManager)
+
+    fun repositoryManager():IRepositoryManager
+    fun context():Context
+    fun appManager():AppManager
 }

@@ -1,4 +1,4 @@
-package com.maocanmao.mypass.ui.activity
+package com.maocanmao.mypass.mvp.ui.activity
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -9,8 +9,8 @@ import android.view.KeyEvent
 import com.maocanmao.mypass.R
 import com.maocanmao.mypass.appinfra.AppManager
 import com.maocanmao.mypass.appinfra.BaseApp
-import com.maocanmao.mypass.ui.fragment.HomeFragment
-import com.maocanmao.mypass.ui.fragment.Settingragment
+import com.maocanmao.mypass.mvp.ui.fragment.HomeFragment
+import com.maocanmao.mypass.mvp.ui.fragment.Settingragment
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         BaseApp.appComponent.inject(this)
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         loadFragment(HomeFragment.newInstance())
     }

@@ -1,4 +1,4 @@
-package com.maocanmao.mypass.ui.activity
+package com.maocanmao.mypass.mvp.ui.activity
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
