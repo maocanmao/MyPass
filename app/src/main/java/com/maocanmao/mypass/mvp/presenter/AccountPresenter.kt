@@ -13,11 +13,14 @@ class AccountPresenter :BasePresenter<AccountContract.Model,AccountContract.View
     constructor(mModel: AccountContract.Model?, mRootView: AccountContract.View?) : super(mModel, mRootView)
 
     fun getAllAccount(){
-        val account = Account(1L,"ZHIHU","123","ZHIHU")
-//        mModel?.insertAccount(account)
         mModel?.getAllAccount()?.subscribe { result->
-            print(result.first())
+            mRootView?.onAccountsLoaded(result.toList())
         }
 
+    }
+
+    fun insertNewAccount(account: Account){
+
+        mModel?.insertAccount(account)
     }
 }

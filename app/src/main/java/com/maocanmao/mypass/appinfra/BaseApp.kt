@@ -4,6 +4,7 @@ import android.app.Application
 import com.maocanmao.mypass.di.component.AppComponent
 import com.maocanmao.mypass.di.component.DaggerAppComponent
 import com.maocanmao.mypass.di.module.AppModule
+import io.realm.Realm
 
 
 /**
@@ -20,6 +21,7 @@ class BaseApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initDagger()
+        Realm.init(this)
         this.registerActivityLifecycleCallbacks(ActivityLifeCycle())
     }
 

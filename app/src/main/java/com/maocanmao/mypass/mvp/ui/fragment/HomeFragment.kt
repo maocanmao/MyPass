@@ -1,7 +1,10 @@
 package com.maocanmao.mypass.mvp.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +12,12 @@ import com.maocanmao.mypass.R
 import com.maocanmao.mypass.appinfra.BaseApp
 import com.maocanmao.mypass.di.component.DaggerAccountComponent
 import com.maocanmao.mypass.di.module.AccountModule
+import com.maocanmao.mypass.model.entity.Account
 import com.maocanmao.mypass.mvp.contract.AccountContract
 import com.maocanmao.mypass.mvp.presenter.AccountPresenter
+import com.maocanmao.mypass.mvp.ui.activity.AddAccountActivity
+import com.maocanmao.mypass.mvp.ui.adapter.HomeAccountListAdapter
+import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
 /**
@@ -24,8 +31,11 @@ import javax.inject.Inject
  */
 class HomeFragment : Fragment(), AccountContract.View {
 
+
     @Inject
-    lateinit var mPresenter:AccountPresenter
+    lateinit var mPresenter: AccountPresenter
+
+    private lateinit var mAccountListAdapter: HomeAccountListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,20 +45,35 @@ class HomeFragment : Fragment(), AccountContract.View {
 
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        mPresenter.getAllAccount()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        initUI()
+        mPresenter.getAllAccount()
+    }
+
+    private fun initUI() {
+        accountList.layoutManager = LinearLayoutManager(context)
+        addPass.setOnClickListener {
+            startActivity(Intent(activity, AddAccountActivity::class.java))
+        }
+    }
+
     override fun showMessage(message: String) {
 
+    }
+
+    override fun onAccountsLoaded(accounts: List<Account>) {
+        mAccountListAdapter = HomeAccountListAdapter(accounts)
+        accountList.adapter = mAccountListAdapter
+    }
+
+    override fun onAccountLoadFailed() {
     }
 
 
