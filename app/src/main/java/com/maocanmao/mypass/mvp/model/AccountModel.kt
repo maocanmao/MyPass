@@ -1,12 +1,12 @@
 package com.maocanmao.mypass.mvp.model
 
-import android.util.Log
 import com.maocanmao.mypass.appinfra.IRepositoryManager
 import com.maocanmao.mypass.di.scope.UIScope
 import com.maocanmao.mypass.model.entity.Account
 import com.maocanmao.mypass.mvp.contract.AccountContract
 import io.reactivex.Flowable
 import io.realm.RealmResults
+import io.realm.kotlin.where
 import javax.inject.Inject
 
 
@@ -22,22 +22,16 @@ class AccountModel : BaseModel, AccountContract.Model {
 
     override fun getAllAccount(): Flowable<RealmResults<Account>> {
         return mRepositoryManager.obtainRealmService()
-                .where(Account::class.java).findAllAsync().asFlowable()
+                .where<Account>().findAll().asFlowable()
 
     }
 
 
     override fun insertAccount(account: Account) {
-
-        mRepositoryManager.obtainRealmService().executeTransactionAsync({ bgRealm ->
+//use sync function
+        mRepositoryManager.obtainRealmService().executeTransaction({ bgRealm ->
             bgRealm.copyToRealm(account)
-        }, {
-            Log.i("TAG", "insert success")
-        },
-                { error ->
-                    Log.i("TAG", "insert error" + error.message)
-                })
-
+        })
     }
 
 }

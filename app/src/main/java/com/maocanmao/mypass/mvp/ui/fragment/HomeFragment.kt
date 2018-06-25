@@ -3,8 +3,8 @@ package com.maocanmao.mypass.mvp.ui.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.AppCompatEditText
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,7 @@ import com.maocanmao.mypass.mvp.ui.activity.AddAccountActivity
 import com.maocanmao.mypass.mvp.ui.adapter.HomeAccountListAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
+
 
 /**
  * A simple [Fragment] subclass.
@@ -70,7 +71,8 @@ class HomeFragment : Fragment(), AccountContract.View {
 
     override fun onAccountsLoaded(accounts: List<Account>) {
         mAccountListAdapter = HomeAccountListAdapter(accounts)
-        accountList.adapter = mAccountListAdapter
+        accountList?.adapter = mAccountListAdapter
+        mAccountListAdapter.notifyDataSetChanged()
     }
 
     override fun onAccountLoadFailed() {

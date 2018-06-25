@@ -1,6 +1,7 @@
 package com.maocanmao.mypass.appinfra
 
 import android.app.Application
+import android.util.Log
 import com.maocanmao.mypass.di.component.AppComponent
 import com.maocanmao.mypass.di.component.DaggerAppComponent
 import com.maocanmao.mypass.di.module.AppModule
@@ -22,6 +23,7 @@ class BaseApp : Application() {
         super.onCreate()
         initDagger()
         Realm.init(this)
+        Log.i("Realm Path",Realm.getDefaultInstance().path)
         this.registerActivityLifecycleCallbacks(ActivityLifeCycle())
     }
 

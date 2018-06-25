@@ -1,7 +1,10 @@
 package com.maocanmao.mypass.mvp.ui.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.maocanmao.mypass.R
 import com.maocanmao.mypass.appinfra.BaseApp
 import com.maocanmao.mypass.di.component.DaggerAccountComponent
@@ -17,9 +20,9 @@ class AddAccountActivity : AppCompatActivity(), AccountContract.View {
     @Inject
     lateinit var mPresenter: AccountPresenter
 
-    lateinit var accountDesrciption: String
-    lateinit var accountName: String
-    lateinit var accountPassword: String
+    private lateinit var accountDescription: String
+    private lateinit var accountName: String
+    private lateinit var accountPassword: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,21 +30,44 @@ class AddAccountActivity : AppCompatActivity(), AccountContract.View {
         setContentView(R.layout.activity_add_account)
         DaggerAccountComponent.builder().appComponent(BaseApp.appComponent)
                 .accountModule(AccountModule(this)).build().inject(this)
-        save_account.setOnClickListener {
-            saveData()
+        initUI()
+    }
 
-        }
+    private fun initUI() {
+        toolbar.title = ""
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
+        toolbar.inflateMenu(R.menu.add_account_toolbar_menu)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun saveData() {
-        accountDesrciption = account_description.text.toString()
+        accountDescription = account_description.text.toString()
         accountName = account_name.text.toString()
         accountPassword = account_password.text.toString()
+        if (accountName.isEmpty() || accountPassword.isEmpty() || accountDescription.isEmpty()) {
+            Snackbar.make(window.decorView, "请填写完整资料", Snackbar.LENGTH_SHORT).show()
+            return
+        }
 
-        val account: Account = Account(accountName = accountName,
-                password = accountPassword,
-                title = accountDesrciption)
-        mPresenter.insertNewAccount(account)
+        mPresenter.insertNewAccount(accountName, accountPassword, accountDescription)
+        finish()
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.add_account_toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_save -> {
+            saveData()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
 
     }
 

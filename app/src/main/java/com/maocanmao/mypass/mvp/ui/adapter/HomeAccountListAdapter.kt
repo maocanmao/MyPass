@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.maocanmao.mypass.R
 import com.maocanmao.mypass.model.entity.Account
-import kotlinx.android.synthetic.main.activity_add_account.view.*
+import kotlinx.android.synthetic.main.item_account.view.*
 
 /**
  * Created by zhouyang on 2018/6/21.
@@ -16,8 +16,8 @@ class HomeAccountListAdapter(private var mList: List<Account>) : RecyclerView.Ad
 
     inner class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(account: Account) {
-            itemView.account_name.setText(account.accountName)
-            itemView.account_description.setText(account.title)
+            itemView.account_name.text = account.accountName
+            itemView.account_description.text = account.title
         }
 
     }

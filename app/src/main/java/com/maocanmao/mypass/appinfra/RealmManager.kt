@@ -1,6 +1,7 @@
 package com.maocanmao.mypass.appinfra
 
 import android.content.Context
+import android.util.Log
 import io.realm.Realm
 import javax.inject.Inject
 
