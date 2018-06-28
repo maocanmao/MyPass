@@ -16,8 +16,11 @@ class HomeAccountListAdapter(private var mList: List<Account>) : RecyclerView.Ad
 
     inner class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(account: Account) {
-            itemView.account_name.text = account.accountName
-            itemView.account_description.text = account.title
+            itemView.account_description.text = when (account.title?.length) {
+                in 0..4 -> account.title
+                else ->
+                    account.title.toString().subSequence(0, 3).toString() + "..."
+            }
         }
 
     }
